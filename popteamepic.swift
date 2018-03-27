@@ -2,21 +2,12 @@
 
 import Foundation
 
-enum PopTeamEpic: String {
-    case po = "ポ"
-    case p = "プ"
-    case teame = "テピ"
-    case pic = "ピック"
+enum PopTeamEpic: Int {
+    case ポ,プ,テピ,ピック
 }
 struct 蒼井翔太: Sequence, IteratorProtocol {
     mutating func next() -> PopTeamEpic? {
-        switch arc4random_uniform(4) {
-        case 0: return .po
-        case 1: return .p
-        case 2: return .teame
-        case 3: return .pic
-        case _: fatalError()
-        }
+        return PopTeamEpic(rawValue: Int(arc4random_uniform(4)))
     }
 }
 class 竹書房 {
@@ -27,14 +18,13 @@ class 竹書房 {
     }
     func receive(_ 🖕: PopTeamEpic) throws {
         並行励起.append(🖕)
-        if 並行励起.suffix(4) == [.po, .p, .teame, .pic] {
-            throw 破壊(断末魔: 並行励起.map { $0.rawValue }.reduce("", +))
+        if 並行励起.suffix(4) == [.ポ, .プ, .テピ, .ピック] {
+            throw 破壊(断末魔: 並行励起.map { String(describing: $0) }.reduce("", +))
         }
     }
 }
-
 var 🕺 = 蒼井翔太()
 let 🏢 = 竹書房()
-for 🖕 in 🕺 {
-    try! 🏢.receive(🖕)
+🕺.forEach {
+    try! 🏢.receive($0)
 }
